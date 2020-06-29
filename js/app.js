@@ -13,6 +13,7 @@ function MallItems(name, imageUrl){
   this.name = name;
   this.imageUrl = imageUrl;
   this.timesClicked = 0;
+  this.timesShown = 0;
   allBussMallItems.push(this);
 }
 
@@ -71,22 +72,32 @@ function imageWasClicked(event){
   bussMallIndex3 = nextBussMallIndex3;
 
   imageElements[0].src = allBussMallItems[bussMallIndex1].imageUrl;
+  allBussMallItems[bussMallIndex1].timesShown++;
   imageElements[1].src = allBussMallItems[bussMallIndex2].imageUrl;
+  allBussMallItems[bussMallIndex2].timesShown++;
   imageElements[2].src = allBussMallItems[bussMallIndex3].imageUrl;
+  allBussMallItems[bussMallIndex3].timesShown++;
 
   if(totalClicks >= rounds){
     console.log('im running now');
-    var footerElement = document.getElementsByTagName('footer')[0];
-    if(footerElement.firstElementChild){
-      footerElement.firstElementChild.remove();
+    var resultsList = document.getElementById('bussMall-results');
+    for(var i =0; i < allBussMallItems.length; i++){
+      var bMallItem = document.createElement('li');
+      bMallItem.textContent = `${allBussMallItems[i].name} was clicked on ${allBussMallItems[i].timesClicked} times and was shown ${allBussMallItems[i].timesShown} times.`;
+      resultsList.appendChild(bMallItem);
     }
-    footerElement.textContent = 'You voted 25 times';
+    for(var i = 0; i < imageElements.length; i++){
+      imageElements[i].removeEventListener('click', imageWasClicked);
+    }
   }
 }
 for(var i = 0; i < imageElements.length; i++){
   console.log('this is the event listener for the clicked item');
   imageElements[i].addEventListener('click', imageWasClicked);
 }
+
+
+
 
 
 
