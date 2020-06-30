@@ -6,7 +6,7 @@ var imageElements = document.getElementsByTagName('img');
 var bussMallIndex1 = 0;
 var bussMallIndex2 = 1;
 var bussMallIndex3 = 2;
-var rounds = 5;
+var rounds = 25;
 var allBussMallItems = [];
 
 function MallItems(name, imageUrl){
@@ -15,6 +15,15 @@ function MallItems(name, imageUrl){
   this.timesClicked = 0;
   this.timesShown = 0;
   allBussMallItems.push(this);
+}
+
+function getBussMallArray(nameOfThePropertyIWant){
+  var answer = [];
+  for(var j = 0; j < allBussMallItems.length; j++){
+    answer[j] = allBussMallItems[j][nameOfThePropertyIWant];
+  }
+  console.log(answer);
+  return answer;
 }
 
 // BussMall objects
@@ -85,11 +94,80 @@ function imageWasClicked(event){
       var bMallItem = document.createElement('li');
       bMallItem.textContent = `${allBussMallItems[i].name} was clicked on ${allBussMallItems[i].timesClicked} times and was shown ${allBussMallItems[i].timesShown} times.`;
       resultsList.appendChild(bMallItem);
+
+      var percentageListItem = document.createElement('li');
+      if(allBussMallItems[i].timesClicked === 0){
+        // var math = `ZERO clicks and shown ${allBussMallItems[i].timesShown} times.`;
+        percentageListItem.textContent = `ZERO clicks and shown ${allBussMallItems[i].timesShown} times.`;
+      } else {
+        console.log(allBussMallItems[i].timesShown);
+        var math = Math.round(((allBussMallItems[i].timesClicked / allBussMallItems[i].timesShown).toFixed(2) * 100)) + '%';
+        percentageListItem.textContent = `${allBussMallItems[i].name} percentage of clicked on VS times shown is ` + math;
+      }
+
+      resultsList.appendChild(percentageListItem);
     }
-    for(var i = 0; i < imageElements.length; i++){
+    for(i = 0; i < imageElements.length; i++){
       imageElements[i].removeEventListener('click', imageWasClicked);
     }
+    runMyChartNow();
   }
+}
+function runMyChartNow() {
+
+  var ctx = document.getElementById('myResultsChart').getContext('2d');
+
+
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: getBussMallArray('name'),
+      datasets: [{
+        label: 'Voting results',
+        data: getBussMallArray('timesClicked'),
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(0, 2, 97,  0.2)',
+          'rgba(232, 220, 89, 0.2)',
+          'rgba(89, 218, 232, 0.2)',
+          'rgba(89, 232, 161, 0.2)',
+          'rgba(255, 66, 66, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(65, 0, 97, 0.2)',
+          'rgba(45, 97, 0, 0.2)',
+          'rgba(0, 97, 82, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(97, 0, 0, 0.2)',
+          'rgba(255, 101, 5, 0.2)',
+          'rgba(255, 5, 193, 0.2)',
+          'rgba(97, 76, 0, 0.2)',
+          'rgba(5, 255, 93 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
 }
 for(var i = 0; i < imageElements.length; i++){
   console.log('this is the event listener for the clicked item');
