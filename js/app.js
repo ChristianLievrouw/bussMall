@@ -9,7 +9,7 @@ var bussMallIndex3 = 2;
 var rounds = 25;
 var allBussMallItems = [];
 
-function MallItems(name, imageUrl, timesClicked){
+function MallItems(name, imageUrl, timesClicked, timesShown){
   this.name = name;
   this.imageUrl = imageUrl;
   if(timesClicked){
@@ -17,7 +17,11 @@ function MallItems(name, imageUrl, timesClicked){
   } else {
     this.timesClicked = 0;
   }
-  this.timesShown = 0;
+  if(timesShown){
+    this.timesShown = timesShown;
+  } else {
+    this.timesShown = 0;
+  }
   allBussMallItems.push(this);
 }
 
@@ -30,16 +34,12 @@ function getBussMallArray(nameOfThePropertyIWant){
   return answer;
 }
 
-// MallItems.prototype.toString = function(){
-//   return `${this.name} is from out this.name for the specified array index, clicked ${this.timesClicked} times`;
-// };
-
 var savedItemsString = localStorage.getItem('savedItems');
 if(savedItemsString){
 
   var arrayOfNotMallItemObject = JSON.parse(savedItemsString);
-  
-  for(var j = 0; j < arrayOfNotMallItemObject; j++){
+
+  for(var j = 0; j < arrayOfNotMallItemObject.length; j++){
     new MallItems(arrayOfNotMallItemObject[j].name, arrayOfNotMallItemObject[j].imageUrl, arrayOfNotMallItemObject[j].timesClicked);
   }
 } else {
@@ -65,6 +65,10 @@ if(savedItemsString){
   new MallItems('Water can', 'images/water-can.jpg');
   new MallItems('Wine glass', 'images/wine-glass.jpg');
 }
+
+allBussMallItems[0].timesShown = 1;
+allBussMallItems[1].timesShown = 1;
+allBussMallItems[2].timesShown = 1;
 
 var totalClicks = 0;
 function imageWasClicked(event){
