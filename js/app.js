@@ -9,10 +9,14 @@ var bussMallIndex3 = 2;
 var rounds = 25;
 var allBussMallItems = [];
 
-function MallItems(name, imageUrl){
+function MallItems(name, imageUrl, timesClicked){
   this.name = name;
   this.imageUrl = imageUrl;
-  this.timesClicked = 0;
+  if(timesClicked){
+    this.timesClicked = timesClicked;
+  } else {
+    this.timesClicked = 0;
+  }
   this.timesShown = 0;
   allBussMallItems.push(this);
 }
@@ -26,27 +30,41 @@ function getBussMallArray(nameOfThePropertyIWant){
   return answer;
 }
 
+// MallItems.prototype.toString = function(){
+//   return `${this.name} is from out this.name for the specified array index, clicked ${this.timesClicked} times`;
+// };
+
+var savedItemsString = localStorage.getItem('savedItems');
+if(savedItemsString){
+
+  var arrayOfNotMallItemObject = JSON.parse(savedItemsString);
+  
+  for(var j = 0; j < arrayOfNotMallItemObject; j++){
+    new MallItems(arrayOfNotMallItemObject[j].name, arrayOfNotMallItemObject[j].imageUrl, arrayOfNotMallItemObject[j].timesClicked);
+  }
+} else {
 // BussMall objects
-new MallItems('Bag', 'images/bag.jpg');
-new MallItems('Banana', 'images/banana.jpg');
-new MallItems('Bathroom', 'images/bathroom.jpg');
-new MallItems('Boots', 'images/boots.jpg');
-new MallItems('Breakfast', 'images/breakfast.jpg');
-new MallItems('Bubblegum', 'images/bubblegum.jpg');
-new MallItems('Chair', 'images/chair.jpg');
-new MallItems('Cthulhu', 'images/cthulhu.jpg');
-new MallItems('Dog Duck', 'images/dog-duck.jpg');
-new MallItems('Dragon', 'images/dragon.jpg');
-new MallItems('Pen', 'images/pen.jpg');
-new MallItems('Pet sweep', 'images/pet-sweep.jpg');
-new MallItems('Scissors', 'images/scissors.jpg');
-new MallItems('Shark', 'images/shark.jpg');
-new MallItems('Sweep', 'images/sweep.png');
-new MallItems('Tauntaun', 'images/tauntaun.jpg');
-new MallItems('Unicorn', 'images/unicorn.jpg');
-new MallItems('USB', 'images/usb.gif');
-new MallItems('Water can', 'images/water-can.jpg');
-new MallItems('Wine glass', 'images/wine-glass.jpg');
+  new MallItems('Bag', 'images/bag.jpg');
+  new MallItems('Banana', 'images/banana.jpg');
+  new MallItems('Bathroom', 'images/bathroom.jpg');
+  new MallItems('Boots', 'images/boots.jpg');
+  new MallItems('Breakfast', 'images/breakfast.jpg');
+  new MallItems('Bubblegum', 'images/bubblegum.jpg');
+  new MallItems('Chair', 'images/chair.jpg');
+  new MallItems('Cthulhu', 'images/cthulhu.jpg');
+  new MallItems('Dog Duck', 'images/dog-duck.jpg');
+  new MallItems('Dragon', 'images/dragon.jpg');
+  new MallItems('Pen', 'images/pen.jpg');
+  new MallItems('Pet sweep', 'images/pet-sweep.jpg');
+  new MallItems('Scissors', 'images/scissors.jpg');
+  new MallItems('Shark', 'images/shark.jpg');
+  new MallItems('Sweep', 'images/sweep.png');
+  new MallItems('Tauntaun', 'images/tauntaun.jpg');
+  new MallItems('Unicorn', 'images/unicorn.jpg');
+  new MallItems('USB', 'images/usb.gif');
+  new MallItems('Water can', 'images/water-can.jpg');
+  new MallItems('Wine glass', 'images/wine-glass.jpg');
+}
 
 var totalClicks = 0;
 function imageWasClicked(event){
@@ -88,6 +106,7 @@ function imageWasClicked(event){
   allBussMallItems[bussMallIndex3].timesShown++;
 
   if(totalClicks >= rounds){
+    localStorage.setItem('savedItems', JSON.stringify(allBussMallItems)); // Step one
     console.log('im running now');
     var resultsList = document.getElementById('bussMall-results');
     for(var i =0; i < allBussMallItems.length; i++){
