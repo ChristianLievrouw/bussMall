@@ -36,11 +36,9 @@ function getBussMallArray(nameOfThePropertyIWant){
 
 var savedItemsString = localStorage.getItem('savedItems');
 if(savedItemsString){
-
   var arrayOfNotMallItemObject = JSON.parse(savedItemsString);
-
   for(var j = 0; j < arrayOfNotMallItemObject.length; j++){
-    new MallItems(arrayOfNotMallItemObject[j].name, arrayOfNotMallItemObject[j].imageUrl, arrayOfNotMallItemObject[j].timesClicked);
+    new MallItems(arrayOfNotMallItemObject[j].name, arrayOfNotMallItemObject[j].imageUrl, arrayOfNotMallItemObject[j].timesClicked, arrayOfNotMallItemObject[j].timesShown);
   }
 } else {
 // BussMall objects
@@ -65,10 +63,9 @@ if(savedItemsString){
   new MallItems('Water can', 'images/water-can.jpg');
   new MallItems('Wine glass', 'images/wine-glass.jpg');
 }
-
-allBussMallItems[0].timesShown = 1;
-allBussMallItems[1].timesShown = 1;
-allBussMallItems[2].timesShown = 1;
+// allBussMallItems[0].timesShown = 1;
+// allBussMallItems[1].timesShown = 1;
+// allBussMallItems[2].timesShown = 1;
 
 var totalClicks = 0;
 function imageWasClicked(event){
@@ -136,6 +133,7 @@ function imageWasClicked(event){
     runMyChartNow();
   }
 }
+
 function runMyChartNow() {
 
   var ctx = document.getElementById('myResultsChart').getContext('2d');
