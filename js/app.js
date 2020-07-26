@@ -63,9 +63,6 @@ if(savedItemsString){
   new MallItems('Water can', 'images/water-can.jpg');
   new MallItems('Wine glass', 'images/wine-glass.jpg');
 }
-// allBussMallItems[0].timesShown = 1;
-// allBussMallItems[1].timesShown = 1;
-// allBussMallItems[2].timesShown = 1;
 
 var totalClicks = 0;
 function imageWasClicked(event){
